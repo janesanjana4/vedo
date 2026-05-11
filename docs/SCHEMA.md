@@ -17,6 +17,7 @@ Extended with VEDO-specific fields.
 | phone | TEXT | Y | Contact phone (hidden until match) |
 | profile_type | TEXT | Y | 'individual' \| 'group' |
 | group_id | UUID | Y | FK to groups (if group member) |
+| neighborhood | TEXT | Y | NYC neighborhood (e.g., "Lower East Side", "Astoria") |
 | verification_status | TEXT | N | 'pending' \| 'id_verified' \| 'photo_verified' \| 'completed' |
 | photo_urls | TEXT[] | N | Array of photo URLs (min 3, max 10) |
 | created_at | TIMESTAMP | N | User creation timestamp |
@@ -182,6 +183,8 @@ WHERE
   AND p.budget_min <= $2 AND p.budget_max >= $3
   -- Move-in timeline overlap (within 3 months)
   AND p.move_in_month >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+  -- NYC neighborhood match (same or adjacent)
+  AND u.neighborhood IN (SELECT neighborhood FROM neighborhood_adjacency WHERE ref_neighborhood = $5)
   -- Not blocked
   AND u.id NOT IN (SELECT blocked_id FROM blocks WHERE blocker_id = $4)
   -- Haven't swiped on yet

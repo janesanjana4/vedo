@@ -15,6 +15,7 @@ export interface User {
   phone?: string;
   profile_type?: ProfileType;
   group_id?: string;
+  neighborhood?: string; // NYC neighborhood
   verification_status: VerificationStatus;
   photo_urls: string[];
   created_at: string;

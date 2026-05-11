@@ -2,6 +2,7 @@
 ALTER TABLE auth.users ADD COLUMN IF NOT EXISTS phone TEXT;
 ALTER TABLE auth.users ADD COLUMN IF NOT EXISTS profile_type TEXT CHECK (profile_type IN ('individual', 'group'));
 ALTER TABLE auth.users ADD COLUMN IF NOT EXISTS group_id UUID;
+ALTER TABLE auth.users ADD COLUMN IF NOT EXISTS neighborhood TEXT;
 ALTER TABLE auth.users ADD COLUMN IF NOT EXISTS verification_status TEXT DEFAULT 'pending' CHECK (verification_status IN ('pending', 'id_verified', 'photo_verified', 'completed'));
 ALTER TABLE auth.users ADD COLUMN IF NOT EXISTS photo_urls TEXT[] DEFAULT ARRAY[]::TEXT[];
 
@@ -76,6 +77,51 @@ CREATE TABLE IF NOT EXISTS blocks (
   created_at TIMESTAMP DEFAULT NOW(),
   UNIQUE(blocker_id, blocked_id)
 );
+
+-- NYC Neighborhood adjacency lookup (for location filtering)
+CREATE TABLE IF NOT EXISTS neighborhood_adjacency (
+  neighborhood TEXT PRIMARY KEY,
+  adjacent_neighborhoods TEXT[] DEFAULT ARRAY[]::TEXT[]
+);
+
+-- Insert NYC neighborhood data
+INSERT INTO neighborhood_adjacency (neighborhood, adjacent_neighborhoods) VALUES
+('Lower East Side', ARRAY['East Village', 'Chinatown', 'Two Bridges']),
+('East Village', ARRAY['Lower East Side', 'East Harlem', 'Alphabet City']),
+('Astoria', ARRAY['Long Island City', 'Sunnyside', 'Woodside']),
+('Williamsburg', ARRAY['Greenpoint', 'Bushwick', 'DUMBO']),
+('Upper West Side', ARRAY['Upper East Side', 'Morningside Heights', 'Hell\'s Kitchen']),
+('Upper East Side', ARRAY['Upper West Side', 'Yorkville', 'Midtown']),
+('Brooklyn Heights', ARRAY['DUMBO', 'Park Slope', 'Williamsburg']),
+('Park Slope', ARRAY['Brooklyn Heights', 'Prospect Heights', 'Sunset Park']),
+('Greenpoint', ARRAY['Williamsburg', 'Long Island City']),
+('Bushwick', ARRAY['Williamsburg', 'Ridgewood', 'Greenpoint']),
+('Midtown', ARRAY['Upper East Side', 'Upper West Side', 'Hell\'s Kitchen']),
+('Hell\'s Kitchen', ARRAY['Midtown', 'Upper West Side', 'Chelsea']),
+('Chelsea', ARRAY['Hell\'s Kitchen', 'West Village']),
+('West Village', ARRAY['Chelsea', 'SoHo', 'Tribeca']),
+('SoHo', ARRAY['West Village', 'Tribeca', 'Nolita']),
+('Tribeca', ARRAY['SoHo', 'Lower Manhattan', 'Chinatown']),
+('Nolita', ARRAY['SoHo', 'Little Italy', 'Chinatown']),
+('Long Island City', ARRAY['Astoria', 'Greenpoint', 'Williamsburg']),
+('Ridgewood', ARRAY['Bushwick', 'Forest Hills']),
+('Sunset Park', ARRAY['Park Slope', 'Bensonhurst']),
+('Bensonhurst', ARRAY['Sunset Park', 'Flatbush']),
+('Flatbush', ARRAY['Bensonhurst', 'Prospect Heights']),
+('Prospect Heights', ARRAY['Flatbush', 'Park Slope']),
+('Yorkville', ARRAY['Upper East Side']),
+('Morningside Heights', ARRAY['Upper West Side']),
+('Chinatown', ARRAY['Lower East Side', 'Nolita', 'Tribeca']),
+('Little Italy', ARRAY['Nolita', 'Chinatown']),
+('Two Bridges', ARRAY['Lower East Side', 'Chinatown']),
+('DUMBO', ARRAY['Brooklyn Heights', 'Williamsburg']),
+('Alphabet City', ARRAY['East Village']),
+('East Harlem', ARRAY['East Village', 'Harlem']),
+('Harlem', ARRAY['East Harlem', 'Morningside Heights']),
+('Forest Hills', ARRAY['Ridgewood']),
+('Lower Manhattan', ARRAY['Tribeca', 'Financial District']),
+('Financial District', ARRAY['Lower Manhattan'])
+ON CONFLICT (neighborhood) DO NOTHING;
 
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_swipes_swiper_id ON swipes(swiper_id);

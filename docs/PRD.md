@@ -2,7 +2,7 @@
 
 ## 1. Overview
 
-**VEDO** is a swipe-based roommate matching app for university students and young professionals looking for compatible living situations. Users create profiles (individual or group), set preferences, and swipe through potential roommates. Matches unlock messaging.
+**VEDO** is a swipe-based roommate matching app for people in NYC looking for compatible living situations. Users create profiles (individual or group), set preferences, and swipe through potential roommates. Matches unlock messaging.
 
 **MVP Scope:** Core matching, messaging, profile management. No realtor profiles, subscriptions, or gamification (Phase 2).
 
@@ -90,7 +90,7 @@
 - Profile type match (individual looking for individuals shows only individuals; group looking for groups shows groups, etc.)
 - Budget overlap (±20% acceptable range)
 - Move-in timeline overlap (within 3 months)
-- University/city match (if user specified)
+- NYC location (same neighborhood or adjacent neighborhoods)
 
 **Soft Scoring (For ranking, TBD post-launch):**
 - Preference overlap % (e.g., if 70%+ match, boost ranking)
