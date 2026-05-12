@@ -64,41 +64,31 @@ export default function OTPVerify({ phone, onNext, onBack }: OTPVerifyProps) {
   }
 
   return (
-    <div style={{
-      display: 'flex', flexDirection: 'column',
-      minHeight: '100vh', background: '#ffffff', padding: '0 20px 40px',
-    }}>
-      <div style={{ height: 3, background: '#F0F0F0' }}>
-        <div style={{ height: 3, background: '#1a1a1a', width: '32%', borderRadius: 2 }} />
+    <div className="flex flex-col min-h-screen bg-white px-5 pb-10">
+      <div className="h-1 bg-gray-100">
+        <div className="h-1 bg-primary w-8 rounded" />
       </div>
 
-      <div style={{ padding: '14px 0 0' }}>
-        <button onClick={onBack} style={{
-          width: 34, height: 34, borderRadius: '50%',
-          border: '1px solid #E8E8E8', background: '#ffffff',
-          cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
+      <div className="pt-3.5">
+        <button onClick={onBack} className="w-8.5 h-8.5 rounded-full border border-border bg-white cursor-pointer flex items-center justify-center hover:bg-gray-50">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M9 2L4 7L9 12" stroke="#1a1a1a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
       </div>
 
-      <div style={{ flex: 1, paddingTop: 24 }}>
-        <h1 style={{
-          fontSize: 22, fontWeight: 500, color: '#1a1a1a',
-          lineHeight: 1.25, marginBottom: 8, fontFamily: 'inherit',
-        }}>
+      <div className="flex-1 pt-6">
+        <h1 className="text-xl font-medium text-primary leading-tight mb-2">
           enter the code<br />we sent you
         </h1>
-        <p style={{ fontSize: 13, color: '#999999', marginBottom: 32, fontFamily: 'inherit' }}>
+        <p className="text-xs text-gray-600 mb-8">
           sent to {phone}{' '}
-          <span onClick={onBack} style={{ color: '#1a1a1a', textDecoration: 'underline', cursor: 'pointer' }}>
+          <span onClick={onBack} className="text-primary underline cursor-pointer hover:text-gray-900">
             change
           </span>
         </p>
 
-        <div style={{ display: 'flex', gap: 6, justifyContent: 'center', marginBottom: 24, flexWrap: 'wrap' }}>
+        <div className="flex gap-1.5 justify-center mb-6 flex-wrap">
           {otp.map((digit, i) => (
             <input
               key={i}
@@ -108,30 +98,26 @@ export default function OTPVerify({ phone, onNext, onBack }: OTPVerifyProps) {
               value={digit}
               onChange={e => handleInput(i, e.target.value)}
               onKeyDown={e => handleKeyDown(i, e)}
-              style={{
-                width: 42, height: 52,
-                border: `1.5px solid ${digit ? '#1a1a1a' : '#E8E8E8'}`,
-                borderRadius: 10, textAlign: 'center',
-                fontSize: 18, fontWeight: 500, color: '#1a1a1a',
-                fontFamily: 'inherit', outline: 'none', background: '#ffffff',
-              }}
+              className={`w-11 h-14 border-2 rounded-lg text-center text-lg font-medium text-primary outline-none bg-white transition-colors ${
+                digit ? 'border-primary' : 'border-border'
+              }`}
             />
           ))}
         </div>
 
         {error && (
-          <p style={{ fontSize: 12, color: '#E24B4A', textAlign: 'center', marginBottom: 12, fontFamily: 'inherit' }}>
+          <p className="text-xs text-error text-center mb-3">
             {error}
           </p>
         )}
 
-        <p style={{ textAlign: 'center', fontSize: 12, color: '#AAAAAA', fontFamily: 'inherit' }}>
+        <p className="text-center text-xs text-gray-500">
           {countdown > 0 ? (
             <>didn't get it? resend in 0:{countdown.toString().padStart(2, '0')}</>
           ) : (
             <span
               onClick={() => { sendOTP(phone); setCountdown(45) }}
-              style={{ color: '#1a1a1a', textDecoration: 'underline', cursor: 'pointer' }}
+              className="text-primary underline cursor-pointer hover:text-gray-900"
             >
               resend code
             </span>
@@ -142,15 +128,11 @@ export default function OTPVerify({ phone, onNext, onBack }: OTPVerifyProps) {
       <button
         onClick={handleVerify}
         disabled={!isComplete || loading}
-        style={{
-          width: '100%', padding: '16px',
-          background: isComplete && !loading ? '#1a1a1a' : '#E0E0E0',
-          color: isComplete && !loading ? '#ffffff' : '#AAAAAA',
-          border: 'none', borderRadius: 30,
-          fontSize: 15, fontWeight: 500,
-          cursor: isComplete && !loading ? 'pointer' : 'default',
-          fontFamily: 'inherit', transition: 'background 0.2s',
-        }}
+        className={`w-full px-4 py-4 border-none rounded-full text-sm font-medium transition-colors ${
+          isComplete && !loading
+            ? 'bg-primary text-white cursor-pointer hover:bg-gray-900'
+            : 'bg-gray-200 text-gray-400 cursor-default'
+        }`}
       >
         {loading ? 'verifying...' : 'verify →'}
       </button>
