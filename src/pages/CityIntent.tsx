@@ -24,77 +24,63 @@ export default function CityIntent({ onNext, onBack }: CityIntentProps) {
   const timelines = ['ASAP', '1–2 months', '3+ months']
 
   return (
-    <div style={{
-      display: 'flex', flexDirection: 'column',
-      minHeight: '100vh', background: '#ffffff', padding: '0 20px 40px',
-    }}>
-      <div style={{ height: 3, background: '#F0F0F0' }}>
-        <div style={{ height: 3, background: '#1a1a1a', width: '60%', borderRadius: 2 }} />
+    <div className="flex flex-col min-h-screen bg-white px-5 pb-10">
+      <div className="h-1 bg-gray-100">
+        <div className="h-1 bg-primary w-16 rounded" />
       </div>
 
-      <div style={{ padding: '14px 0 0' }}>
-        <button onClick={onBack} style={{
-          width: 34, height: 34, borderRadius: '50%',
-          border: '1px solid #E8E8E8', background: '#ffffff',
-          cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
+      <div className="pt-3.5">
+        <button onClick={onBack} className="w-8.5 h-8.5 rounded-full border border-border bg-white cursor-pointer flex items-center justify-center hover:bg-gray-50">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M9 2L4 7L9 12" stroke="#1a1a1a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
       </div>
 
-      <div style={{ flex: 1, paddingTop: 24, overflowY: 'auto' }}>
-        <h1 style={{ fontSize: 22, fontWeight: 500, color: '#1a1a1a', lineHeight: 1.25, marginBottom: 8, fontFamily: 'inherit' }}>
+      <div className="flex-1 pt-6 overflow-y-auto">
+        <h1 className="text-xl font-medium text-primary leading-tight mb-2">
           where are you<br />headed?
         </h1>
-        <p style={{ fontSize: 13, color: '#999999', marginBottom: 24, fontFamily: 'inherit' }}>
+        <p className="text-xs text-gray-600 mb-6">
           we'll show you people in the same city.
         </p>
 
-        {/* City cards */}
         {cities.map(c => (
           <div
             key={c.key}
             onClick={() => setCity(c.key)}
-            style={{
-              border: `1.5px solid ${city === c.key ? '#1a1a1a' : '#E8E8E8'}`,
-              borderRadius: 14, padding: '14px 16px',
-              background: city === c.key ? '#FAFAFA' : '#ffffff',
-              cursor: 'pointer', marginBottom: 10,
-              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              transition: 'all 0.15s',
-            }}
+            className={`border-2 rounded-2xl p-3.5 cursor-pointer mb-2.5 flex justify-between items-center transition-all ${
+              city === c.key
+                ? 'border-primary bg-bg'
+                : 'border-border bg-white'
+            }`}
           >
             <div>
-              <div style={{ fontSize: 15, fontWeight: 500, color: '#1a1a1a', fontFamily: 'inherit' }}>{c.name}</div>
-              <div style={{ fontSize: 11, color: '#999999', marginTop: 2, fontFamily: 'inherit' }}>{c.sub}</div>
+              <div className="text-sm font-medium text-primary">{c.name}</div>
+              <div className="text-xs text-gray-600 mt-0.5">{c.sub}</div>
             </div>
-            <div style={{
-              width: 20, height: 20, borderRadius: '50%',
-              border: `1.5px solid ${city === c.key ? '#1a1a1a' : '#E8E8E8'}`,
-              background: city === c.key ? '#1a1a1a' : 'transparent',
-              flexShrink: 0,
-            }} />
+            <div
+              className={`w-5 h-5 rounded-full border-2 flex-shrink-0 ${
+                city === c.key
+                  ? 'border-primary bg-primary'
+                  : 'border-border bg-transparent'
+              }`}
+            />
           </div>
         ))}
 
-        {/* Intent pills */}
-        <div style={{ marginTop: 20, marginBottom: 8 }}>
-          <div style={{ fontSize: 11, color: '#AAAAAA', marginBottom: 8, fontFamily: 'inherit' }}>i am looking to...</div>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <div className="mt-5 mb-2">
+          <div className="text-xs text-gray-500 mb-2">i am looking to...</div>
+          <div className="flex gap-2 flex-wrap">
             {intents.map(i => (
               <div
                 key={i}
                 onClick={() => toggleIntent(i)}
-                style={{
-                  padding: '8px 14px', borderRadius: 30,
-                  border: `1px solid ${intent.includes(i) ? '#1a1a1a' : '#E8E8E8'}`,
-                  background: intent.includes(i) ? '#1a1a1a' : '#ffffff',
-                  color: intent.includes(i) ? '#ffffff' : '#888888',
-                  fontSize: 12, cursor: 'pointer', fontFamily: 'inherit',
-                  transition: 'all 0.15s',
-                }}
+                className={`px-3.5 py-2 rounded-full border text-xs cursor-pointer transition-all ${
+                  intent.includes(i)
+                    ? 'border-primary bg-primary text-white'
+                    : 'border-border bg-white text-secondary'
+                }`}
               >
                 {i}
               </div>
@@ -102,22 +88,18 @@ export default function CityIntent({ onNext, onBack }: CityIntentProps) {
           </div>
         </div>
 
-        {/* Timeline pills */}
-        <div style={{ marginTop: 16, marginBottom: 8 }}>
-          <div style={{ fontSize: 11, color: '#AAAAAA', marginBottom: 8, fontFamily: 'inherit' }}>move-in timeline</div>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <div className="mt-4 mb-2">
+          <div className="text-xs text-gray-500 mb-2">move-in timeline</div>
+          <div className="flex gap-2 flex-wrap">
             {timelines.map(t => (
               <div
                 key={t}
                 onClick={() => setTimeline(t)}
-                style={{
-                  padding: '8px 14px', borderRadius: 30,
-                  border: `1px solid ${timeline === t ? '#1a1a1a' : '#E8E8E8'}`,
-                  background: timeline === t ? '#1a1a1a' : '#ffffff',
-                  color: timeline === t ? '#ffffff' : '#888888',
-                  fontSize: 12, cursor: 'pointer', fontFamily: 'inherit',
-                  transition: 'all 0.15s',
-                }}
+                className={`px-3.5 py-2 rounded-full border text-xs cursor-pointer transition-all ${
+                  timeline === t
+                    ? 'border-primary bg-primary text-white'
+                    : 'border-border bg-white text-secondary'
+                }`}
               >
                 {t}
               </div>
@@ -128,16 +110,11 @@ export default function CityIntent({ onNext, onBack }: CityIntentProps) {
 
       <button
         onClick={() => isValid && onNext(city!, intent, timeline!)}
-        style={{
-          width: '100%', padding: '16px',
-          background: isValid ? '#1a1a1a' : '#E0E0E0',
-          color: isValid ? '#ffffff' : '#AAAAAA',
-          border: 'none', borderRadius: 30,
-          fontSize: 15, fontWeight: 500,
-          cursor: isValid ? 'pointer' : 'default',
-          fontFamily: 'inherit', transition: 'background 0.2s',
-          marginTop: 20,
-        }}
+        className={`w-full px-4 py-4 border-none rounded-full text-sm font-medium transition-colors mt-5 ${
+          isValid
+            ? 'bg-primary text-white cursor-pointer hover:bg-gray-900'
+            : 'bg-gray-200 text-gray-400 cursor-default'
+        }`}
       >
         continue
       </button>
