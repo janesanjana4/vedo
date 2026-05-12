@@ -10,12 +10,6 @@ export default function ProfileType({ onNext, onBack }: ProfileTypeProps) {
   const [name, setName] = useState('')
   const [university, setUniversity] = useState('')
 
-  const universities = [
-    'Northeastern University', 'Boston University', 'MIT',
-    'Harvard University', 'NYU', 'Columbia University', 'Fordham University',
-    'Tufts University', 'BU', 'Other'
-  ]
-
   const isValid = selected && name.trim().length > 1 && university.trim().length > 1
 
   return (
