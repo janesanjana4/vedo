@@ -63,12 +63,12 @@ export default function App() {
   }
 
   if (screen === 'loading') return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#ffffff' }}>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 28, fontWeight: 500, color: '#1a1a1a', fontFamily: 'inherit', marginBottom: 8 }}>
-          vedo<span style={{ color: '#D85A30' }}>.</span>
+    <div className="flex items-center justify-center h-screen bg-white">
+      <div className="text-center">
+        <div className="text-2xl font-medium text-primary mb-2">
+          vedo<span className="text-warning">.</span>
         </div>
-        <div style={{ fontSize: 13, color: '#CCCCCC', fontFamily: 'inherit' }}>loading...</div>
+        <div className="text-xs text-gray-400">loading...</div>
       </div>
     </div>
   )
