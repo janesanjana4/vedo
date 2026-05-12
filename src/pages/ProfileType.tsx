@@ -19,36 +19,28 @@ export default function ProfileType({ onNext, onBack }: ProfileTypeProps) {
   const isValid = selected && name.trim().length > 1 && university.trim().length > 1
 
   return (
-    <div style={{
-      display: 'flex', flexDirection: 'column',
-      minHeight: '100vh', background: '#ffffff', padding: '0 20px 40px',
-    }}>
-      <div style={{ height: 3, background: '#F0F0F0' }}>
-        <div style={{ height: 3, background: '#1a1a1a', width: '48%', borderRadius: 2 }} />
+    <div className="flex flex-col min-h-screen bg-white px-5 pb-10">
+      <div className="h-1 bg-gray-100">
+        <div className="h-1 bg-primary w-12 rounded" />
       </div>
 
-      <div style={{ padding: '14px 0 0' }}>
-        <button onClick={onBack} style={{
-          width: 34, height: 34, borderRadius: '50%',
-          border: '1px solid #E8E8E8', background: '#ffffff',
-          cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
+      <div className="pt-3.5">
+        <button onClick={onBack} className="w-8.5 h-8.5 rounded-full border border-border bg-white cursor-pointer flex items-center justify-center hover:bg-gray-50">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M9 2L4 7L9 12" stroke="#1a1a1a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
       </div>
 
-      <div style={{ flex: 1, paddingTop: 24 }}>
-        <h1 style={{ fontSize: 22, fontWeight: 500, color: '#1a1a1a', lineHeight: 1.25, marginBottom: 8, fontFamily: 'inherit' }}>
+      <div className="flex-1 pt-6">
+        <h1 className="text-xl font-medium text-primary leading-tight mb-2">
           who's looking<br />for a place?
         </h1>
-        <p style={{ fontSize: 13, color: '#999999', marginBottom: 24, fontFamily: 'inherit' }}>
+        <p className="text-xs text-gray-600 mb-6">
           this shapes how your profile appears to others.
         </p>
 
-        {/* Type cards */}
-        <div style={{ display: 'flex', gap: 10, marginBottom: 24 }}>
+        <div className="flex gap-2.5 mb-6">
           {[
             { key: 'individual' as const, label: 'just me', sub: 'individual profile', icon: (
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -68,81 +60,57 @@ export default function ProfileType({ onNext, onBack }: ProfileTypeProps) {
             <div
               key={opt.key}
               onClick={() => setSelected(opt.key)}
-              style={{
-                flex: 1, border: `1.5px solid ${selected === opt.key ? '#1a1a1a' : '#E8E8E8'}`,
-                borderRadius: 14, padding: '16px 10px',
-                background: selected === opt.key ? '#FAFAFA' : '#ffffff',
-                cursor: 'pointer', textAlign: 'center',
-                transition: 'all 0.15s',
-              }}
+              className={`flex-1 border-2 rounded-2xl p-4 cursor-pointer text-center transition-all ${
+                selected === opt.key
+                  ? 'border-primary bg-bg'
+                  : 'border-border bg-white'
+              }`}
             >
-              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8 }}>
+              <div className="flex justify-center mb-2">
                 {opt.icon}
               </div>
-              <div style={{ fontSize: 12, fontWeight: 500, color: '#1a1a1a', fontFamily: 'inherit' }}>
+              <div className="text-xs font-medium text-primary">
                 {opt.label}
               </div>
-              <div style={{ fontSize: 10, color: '#AAAAAA', marginTop: 2, fontFamily: 'inherit' }}>
+              <div className="text-xs text-gray-500 mt-0.5">
                 {opt.sub}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Name input */}
-        <div style={{ marginBottom: 14 }}>
-          <div style={{ fontSize: 11, color: '#999999', marginBottom: 5, fontFamily: 'inherit' }}>your name</div>
+        <div className="mb-3.5">
+          <div className="text-xs text-gray-600 mb-1.5">your name</div>
           <input
             type="text"
             value={name}
             onChange={e => setName(e.target.value)}
             placeholder="Arjun Mehta"
-            style={{
-              width: '100%', padding: '11px 14px',
-              border: '1px solid #E8E8E8', borderRadius: 12,
-              fontSize: 14, color: '#1a1a1a', fontFamily: 'inherit',
-              outline: 'none', background: '#ffffff',
-            }}
+            className="w-full px-3.5 py-2.5 border border-border rounded-xl text-xs text-primary outline-none bg-white"
           />
         </div>
 
-        {/* University input */}
-        <div style={{ marginBottom: 14 }}>
-          <div style={{ fontSize: 11, color: '#999999', marginBottom: 5, fontFamily: 'inherit' }}>university</div>
+        <div className="mb-3.5">
+          <div className="text-xs text-gray-600 mb-1.5">neighborhood/city</div>
           <input
             type="text"
             value={university}
             onChange={e => setUniversity(e.target.value)}
-            placeholder="e.g. Northeastern, BU, NYU..."
-            list="universities"
-            style={{
-              width: '100%', padding: '11px 14px',
-              border: '1px solid #E8E8E8', borderRadius: 12,
-              fontSize: 14, color: '#1a1a1a', fontFamily: 'inherit',
-              outline: 'none', background: '#ffffff',
-            }}
+            placeholder="e.g. Lower East Side, Williamsburg..."
+            className="w-full px-3.5 py-2.5 border border-border rounded-xl text-xs text-primary outline-none bg-white"
           />
-          <datalist id="universities">
-            {universities.map(u => <option key={u} value={u} />)}
-          </datalist>
         </div>
 
-        {/* Photo upload */}
-        <div style={{ marginBottom: 14 }}>
-          <div style={{ fontSize: 11, color: '#999999', marginBottom: 5, fontFamily: 'inherit' }}>photo</div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{
-              width: 72, height: 72, borderRadius: '50%',
-              border: '1.5px dashed #D0D0D0', background: '#FAFAFA',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', flexShrink: 0,
-            }}>
+        <div className="mb-3.5">
+          <div className="text-xs text-gray-600 mb-1.5">photo</div>
+          <div className="flex items-center gap-3">
+            <div className="w-20 h-20 rounded-full border-2 border-dashed border-gray-300 bg-bg flex items-center justify-center cursor-pointer flex-shrink-0">
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
                 <circle cx="11" cy="11" r="3.5" stroke="#CCCCCC" strokeWidth="1.2" />
                 <path d="M3 8.5V16a2 2 0 002 2h12a2 2 0 002-2V8.5a2 2 0 00-2-2h-1.5l-1.5-2h-5L7.5 6.5H6a2 2 0 00-2 2z" stroke="#CCCCCC" strokeWidth="1.2" fill="none" />
               </svg>
             </div>
-            <div style={{ fontSize: 11, color: '#BBBBBB', lineHeight: 1.5, fontFamily: 'inherit' }}>
+            <div className="text-xs text-gray-400 leading-relaxed">
               clear face photo required<br />used for ID verification
             </div>
           </div>
@@ -151,15 +119,11 @@ export default function ProfileType({ onNext, onBack }: ProfileTypeProps) {
 
       <button
         onClick={() => isValid && onNext(selected!, name, university)}
-        style={{
-          width: '100%', padding: '16px',
-          background: isValid ? '#1a1a1a' : '#E0E0E0',
-          color: isValid ? '#ffffff' : '#AAAAAA',
-          border: 'none', borderRadius: 30,
-          fontSize: 15, fontWeight: 500,
-          cursor: isValid ? 'pointer' : 'default',
-          fontFamily: 'inherit', transition: 'background 0.2s',
-        }}
+        className={`w-full px-4 py-4 border-none rounded-full text-sm font-medium transition-colors ${
+          isValid
+            ? 'bg-primary text-white cursor-pointer hover:bg-gray-900'
+            : 'bg-gray-200 text-gray-400 cursor-default'
+        }`}
       >
         continue
       </button>
