@@ -24,18 +24,18 @@ export default function Splash({ onGetStarted, onSignIn }: SplashProps) {
         </svg>
       </div>
 
-      <div className="w-full">
+      <div className="w-full flex flex-col gap-4">
         <button
           onClick={onGetStarted}
-          className="w-full px-4 py-4 bg-primary text-white border-none rounded-full text-sm font-medium cursor-pointer tracking-wider hover:bg-gray-900"
+          className="w-full px-4 py-4 bg-primary text-white border-none rounded-full text-sm font-medium cursor-pointer tracking-wider hover:bg-gray-800 transition-colors"
         >
           get started
         </button>
-        <p className="text-center mt-4 text-xs text-gray-600">
+        <p className="text-center text-xs text-gray-600">
           already have an account?{' '}
           <span
             onClick={onSignIn}
-            className="text-primary underline cursor-pointer hover:text-gray-900"
+            className="text-primary underline cursor-pointer hover:text-gray-800 transition-colors"
           >
             sign in
           </span>
