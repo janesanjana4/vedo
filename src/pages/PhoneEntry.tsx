@@ -28,38 +28,28 @@ export default function PhoneEntry({ onNext, onBack }: PhoneEntryProps) {
   }
 
   return (
-    <div style={{
-      display: 'flex', flexDirection: 'column',
-      minHeight: '100vh', background: '#ffffff', padding: '0 20px 40px',
-    }}>
-      <div style={{ height: 3, background: '#F0F0F0' }}>
-        <div style={{ height: 3, background: '#1a1a1a', width: '16%', borderRadius: 2 }} />
+    <div className="flex flex-col min-h-screen bg-white px-5 pb-10">
+      <div className="h-1 bg-gray-100">
+        <div className="h-1 bg-primary w-4 rounded" />
       </div>
 
-      <div style={{ padding: '14px 0 0' }}>
-        <button onClick={onBack} style={{
-          width: 34, height: 34, borderRadius: '50%',
-          border: '1px solid #E8E8E8', background: '#ffffff',
-          cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
+      <div className="pt-3.5">
+        <button onClick={onBack} className="w-8.5 h-8.5 rounded-full border border-border bg-white cursor-pointer flex items-center justify-center hover:bg-gray-50">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M9 2L4 7L9 12" stroke="#1a1a1a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
       </div>
 
-      <div style={{ flex: 1, paddingTop: 24 }}>
-        <h1 style={{
-          fontSize: 22, fontWeight: 500, color: '#1a1a1a',
-          lineHeight: 1.25, marginBottom: 8, fontFamily: 'inherit',
-        }}>
+      <div className="flex-1 pt-6">
+        <h1 className="text-xl font-medium text-primary leading-tight mb-2">
           what's your<br />email address?
         </h1>
-        <p style={{ fontSize: 13, color: '#999999', marginBottom: 28, fontFamily: 'inherit' }}>
+        <p className="text-xs text-gray-600 mb-7">
           we'll send you a one-time code to verify it's you.
         </p>
 
-        <div style={{ marginBottom: 16 }}>
+        <div className="mb-4">
           <input
             type="email"
             value={email}
@@ -67,43 +57,34 @@ export default function PhoneEntry({ onNext, onBack }: PhoneEntryProps) {
             onKeyDown={e => e.key === 'Enter' && handleSend()}
             placeholder="your@email.com"
             autoComplete="email"
-            style={{
-              width: '100%', padding: '14px 16px',
-              border: `1px solid ${email.length > 0 ? '#1a1a1a' : '#E8E8E8'}`,
-              borderRadius: 12, fontSize: 15,
-              color: '#1a1a1a', fontFamily: 'inherit',
-              outline: 'none', background: '#ffffff',
-              transition: 'border 0.15s',
-            }}
+            className={`w-full px-4 py-3.5 border rounded-xl text-sm text-primary outline-none bg-white transition-colors ${
+              email.length > 0 ? 'border-primary' : 'border-border'
+            }`}
           />
         </div>
 
         {error && (
-          <p style={{ fontSize: 12, color: '#E24B4A', marginBottom: 12, fontFamily: 'inherit' }}>
+          <p className="text-xs text-error mb-3">
             {error}
           </p>
         )}
 
-        <p style={{ fontSize: 11, color: '#BBBBBB', fontFamily: 'inherit' }}>
+        <p className="text-xs text-gray-400">
           by continuing you agree to our{' '}
-          <span style={{ textDecoration: 'underline', cursor: 'pointer' }}>terms</span>
+          <span className="underline cursor-pointer">terms</span>
           {' '}&{' '}
-          <span style={{ textDecoration: 'underline', cursor: 'pointer' }}>privacy policy</span>
+          <span className="underline cursor-pointer">privacy policy</span>
         </p>
       </div>
 
       <button
         onClick={handleSend}
         disabled={!isValid || loading}
-        style={{
-          width: '100%', padding: '16px',
-          background: isValid && !loading ? '#1a1a1a' : '#E0E0E0',
-          color: isValid && !loading ? '#ffffff' : '#AAAAAA',
-          border: 'none', borderRadius: 30,
-          fontSize: 15, fontWeight: 500,
-          cursor: isValid && !loading ? 'pointer' : 'default',
-          fontFamily: 'inherit', transition: 'background 0.2s',
-        }}
+        className={`w-full px-4 py-4 border-none rounded-full text-sm font-medium transition-colors ${
+          isValid && !loading
+            ? 'bg-primary text-white cursor-pointer hover:bg-gray-900'
+            : 'bg-gray-200 text-gray-400 cursor-default'
+        }`}
       >
         {loading ? 'sending...' : 'send code →'}
       </button>
