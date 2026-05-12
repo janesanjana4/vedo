@@ -25,3 +25,22 @@
 **Next:** Phase 0.2 - Migrate App.tsx styling to Tailwind
 
 ---
+
+### Phase 0.2: Migrate App.tsx to Tailwind ✅
+**Date:** May 12, 2026  
+**Branch:** jane-dev  
+**Commit:** daa4ca6
+
+**What was done:**
+1. Converted App.tsx loading screen inline styles → Tailwind classes
+   - `display: flex` → `flex`
+   - `color: #1a1a1a` → `text-primary`
+   - Color scheme uses tailwind.config.ts custom colors
+2. Verified build succeeds
+
+**Why:**
+- Phase 0.1 foundation is ready. This is the first real styling migration.
+- Smaller component = easier to verify Tailwind integration works before migrating larger components.
+- Demonstrates pattern for remaining pages.
+
+**Next:** Phase 0.3 - Migrate all page components (Splash, PhoneEntry, etc.)
