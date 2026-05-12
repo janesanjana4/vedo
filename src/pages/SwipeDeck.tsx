@@ -190,46 +190,44 @@ export default function SwipeDeck({ onGoMessages, onGoProfile }: { onGoMessages?
   ]
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#ffffff' }}>
+    <div className="flex flex-col h-screen bg-white">
 
       {/* Top nav */}
-      <div style={{ padding: '14px 18px 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #F5F5F5' }}>
+      <div className="px-4.5 py-3.5 pb-2.5 flex justify-between items-center border-b border-gray-100">
         <VedoLogo width={56} />
-        <div style={{ display: 'flex', gap: 8 }}>
-          <div style={{ width: 34, height: 34, borderRadius: '50%', border: '1px solid #E8E8E8', background: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+        <div className="flex gap-2">
+          <div className="w-8.5 h-8.5 rounded-full border border-border bg-white flex items-center justify-center cursor-pointer hover:bg-gray-50">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><line x1="2" y1="4" x2="14" y2="4" stroke="#1a1a1a" strokeWidth="1.4" /><line x1="4" y1="8" x2="12" y2="8" stroke="#1a1a1a" strokeWidth="1.4" /><line x1="6" y1="12" x2="10" y2="12" stroke="#1a1a1a" strokeWidth="1.4" /></svg>
           </div>
-          <div onClick={onGoProfile} style={{ width: 34, height: 34, borderRadius: '50%', border: '1px solid #E8E8E8', background: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+          <div onClick={onGoProfile} className="w-8.5 h-8.5 rounded-full border border-border bg-white flex items-center justify-center cursor-pointer hover:bg-gray-50">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3" stroke="#1a1a1a" strokeWidth="1.4" fill="none" /><path d="M3 14c0-3 2.2-5 5-5s5 2 5 5" stroke="#1a1a1a" strokeWidth="1.4" fill="none" strokeLinecap="round" /></svg>
           </div>
         </div>
       </div>
 
       {/* Filter chips */}
-      <div style={{ display: 'flex', gap: 6, padding: '10px 14px', overflowX: 'auto', scrollbarWidth: 'none', borderBottom: '1px solid #F5F5F5' }}>
+      <div className="flex gap-1.5 px-3.5 py-2.5 overflow-x-auto border-b border-gray-100" style={{ scrollbarWidth: 'none' }}>
         {UNI_FILTERS.map(f => (
-          <div key={f} onClick={() => setActiveFilter(f)} style={{
-            padding: '5px 12px', borderRadius: 30, whiteSpace: 'nowrap',
-            border: `1px solid ${activeFilter === f ? '#1a1a1a' : '#E8E8E8'}`,
-            background: activeFilter === f ? '#1a1a1a' : '#ffffff',
-            color: activeFilter === f ? '#ffffff' : '#888888',
-            fontSize: 11, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit',
-          }}>{f}</div>
+          <div key={f} onClick={() => setActiveFilter(f)} className={`px-3 py-1 rounded-full whitespace-nowrap border text-xs font-medium cursor-pointer transition-all ${
+            activeFilter === f
+              ? 'border-primary bg-primary text-white'
+              : 'border-border bg-white text-secondary'
+          }`}>{f}</div>
         ))}
       </div>
 
       {/* Card stack */}
-      <div style={{ flex: 1, padding: '8px 14px 0', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'relative', height: 415 }}>
+      <div className="flex-1 px-3.5 pt-2 relative overflow-hidden">
+        <div className="relative h-104">
 
           {third && (
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, transform: 'scale(0.94) translateY(20px)', transformOrigin: 'top center', zIndex: 1 }}>
+            <div className="absolute top-0 left-0 right-0" style={{ transform: 'scale(0.94) translateY(20px)', transformOrigin: 'top center', zIndex: 1 }}>
               <ProfileCard profile={third} />
             </div>
           )}
 
           {second && (
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, transform: 'scale(0.97) translateY(10px)', transformOrigin: 'top center', zIndex: 2 }}>
+            <div className="absolute top-0 left-0 right-0" style={{ transform: 'scale(0.97) translateY(10px)', transformOrigin: 'top center', zIndex: 2 }}>
               <ProfileCard profile={second} />
             </div>
           )}
@@ -243,75 +241,69 @@ export default function SwipeDeck({ onGoMessages, onGoProfile }: { onGoMessages?
               onTouchStart={handleDragStart}
               onTouchMove={handleDragMove}
               onTouchEnd={handleDragEnd}
+              className="absolute top-0 left-0 right-0 z-30 select-none"
               style={{
-                position: 'absolute', top: 0, left: 0, right: 0,
                 transform: `translateX(${dragX}px) rotate(${rotation}deg)`,
-                transformOrigin: 'top center', zIndex: 3,
+                transformOrigin: 'top center',
                 cursor: dragging ? 'grabbing' : 'grab',
                 transition: dragging ? 'none' : 'transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94)',
-                userSelect: 'none',
               }}
             >
               <ProfileCard profile={top} likeOpacity={likeOpacity} nopeOpacity={nopeOpacity} />
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', gap: 8 }}>
-              <span style={{ fontSize: 32 }}>🎉</span>
-              <p style={{ fontSize: 14, color: '#AAAAAA', fontFamily: 'inherit' }}>you've seen everyone nearby</p>
-              <p style={{ fontSize: 12, color: '#CCCCCC', fontFamily: 'inherit' }}>check back soon</p>
+            <div className="flex flex-col items-center justify-center h-full gap-2">
+              <span className="text-4xl">🎉</span>
+              <p className="text-sm text-gray-500">you've seen everyone nearby</p>
+              <p className="text-xs text-gray-400">check back soon</p>
             </div>
           )}
 
           {matchProfile && (
-            <div style={{
-              position: 'absolute', inset: 0, borderRadius: 20,
-              background: 'rgba(255,255,255,0.97)',
-              display: 'flex', flexDirection: 'column', alignItems: 'center',
-              justifyContent: 'center', gap: 12, zIndex: 10, padding: 24, textAlign: 'center',
-            }}>
-              <p style={{ fontSize: 10, letterSpacing: 2, color: '#BBBBBB', textTransform: 'uppercase', fontFamily: 'inherit' }}>it's a match</p>
+            <div className="absolute inset-0 rounded-2xl bg-white bg-opacity-97 flex flex-col items-center justify-center gap-3 z-50 p-6 text-center">
+              <p className="text-xs tracking-widest text-gray-400 uppercase">it's a match</p>
               <VedoLogo width={80} />
-              <p style={{ fontSize: 22, fontWeight: 500, color: '#1a1a1a', fontFamily: 'inherit' }}>
+              <p className="text-xl font-medium text-primary">
                 you & {matchProfile.name.split(' ')[0]}
               </p>
-              <p style={{ fontSize: 12, color: '#AAAAAA', fontFamily: 'inherit' }}>you both swiped right on each other</p>
-              <div style={{ display: 'flex', gap: 12 }}>
-                <div style={{ width: 58, height: 58, borderRadius: '50%', background: matchProfile.avatarBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 500, color: matchProfile.avatarText, fontFamily: 'inherit' }}>{matchProfile.initials}</div>
-                <div style={{ width: 58, height: 58, borderRadius: '50%', background: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 500, color: '#999999', fontFamily: 'inherit' }}>ME</div>
+              <p className="text-xs text-gray-500">you both swiped right on each other</p>
+              <div className="flex gap-3">
+                <div className="w-14.5 h-14.5 rounded-full flex items-center justify-center text-base font-medium" style={{ background: matchProfile.avatarBg, color: matchProfile.avatarText }}>{matchProfile.initials}</div>
+                <div className="w-14.5 h-14.5 rounded-full bg-gray-100 flex items-center justify-center text-base font-medium text-gray-600">ME</div>
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center' }}>
+              <div className="flex flex-wrap gap-1.5 justify-center">
                 {[matchProfile.university, matchProfile.budget, matchProfile.state].filter(Boolean).map(tag => (
-                  <span key={tag} style={{ padding: '3px 10px', borderRadius: 20, background: '#E1F5EE', color: '#0F6E56', fontSize: 10, fontFamily: 'inherit' }}>{tag}</span>
+                  <span key={tag} className="px-2.5 py-1 rounded-full bg-green-50 text-green-900 text-xs">{tag}</span>
                 ))}
               </div>
-              <button onClick={() => { setMatchProfile(null); onGoMessages?.() }} style={{ width: '100%', padding: '13px', background: '#1a1a1a', color: '#ffffff', border: 'none', borderRadius: 30, fontSize: 14, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}>
+              <button onClick={() => { setMatchProfile(null); onGoMessages?.() }} className="w-full px-4 py-3.5 bg-primary text-white border-none rounded-full text-sm font-medium cursor-pointer hover:bg-gray-900">
                 send a message
               </button>
-              <p onClick={() => setMatchProfile(null)} style={{ fontSize: 11, color: '#CCCCCC', cursor: 'pointer', fontFamily: 'inherit' }}>keep swiping</p>
+              <p onClick={() => setMatchProfile(null)} className="text-xs text-gray-400 cursor-pointer">keep swiping</p>
             </div>
           )}
         </div>
       </div>
 
       {/* Action buttons */}
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 18, padding: '12px 0' }}>
-        <button onClick={handlePass} style={{ width: 50, height: 50, borderRadius: '50%', border: '1px solid #E8E8E8', background: '#ffffff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="flex justify-center items-center gap-4.5 py-3">
+        <button onClick={handlePass} className="w-12.5 h-12.5 rounded-full border border-border bg-white cursor-pointer flex items-center justify-center hover:bg-gray-50">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 4l10 10M14 4L4 14" stroke="#E24B4A" strokeWidth="1.8" strokeLinecap="round" /></svg>
         </button>
-        <button style={{ width: 42, height: 42, borderRadius: '50%', border: '1px solid #E8E8E8', background: '#ffffff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <button className="w-10.5 h-10.5 rounded-full border border-border bg-white cursor-pointer flex items-center justify-center hover:bg-gray-50">
           <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1.5l1.4 3 3.3.5-2.4 2.3.6 3.2L7.5 9l-2.9 1.5.6-3.2L2.8 5l3.3-.5z" fill="#D85A30" /></svg>
         </button>
-        <button onClick={handleLike} style={{ width: 60, height: 60, borderRadius: '50%', background: '#1a1a1a', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <button onClick={handleLike} className="w-15 h-15 rounded-full bg-primary border-none cursor-pointer flex items-center justify-center hover:bg-gray-900">
           <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 19s-8-5.5-8-11a5 5 0 0114 0c0 5.5-8 11-8 11H11z" fill="#ffffff" /></svg>
         </button>
       </div>
 
       {/* Bottom nav */}
-      <div style={{ display: 'flex', justifyContent: 'space-around', padding: '10px 0 16px', borderTop: '1px solid #F0F0F0', background: '#ffffff' }}>
+      <div className="flex justify-around py-3 pb-4 border-t border-gray-100 bg-white">
         {tabs.map(tab => (
-          <div key={tab.key} onClick={() => { setActiveTab(tab.key); tab.onClick?.() }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, cursor: 'pointer', padding: '2px 12px', color: activeTab === tab.key ? '#1a1a1a' : '#CCCCCC' }}>
+          <div key={tab.key} onClick={() => { setActiveTab(tab.key); tab.onClick?.() }} className="flex flex-col items-center gap-0.75 cursor-pointer px-3 py-0.5" style={{ color: activeTab === tab.key ? '#1a1a1a' : '#CCCCCC' }}>
             {tab.icon}
-            {tab.key === 'messages' && <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#D85A30' }} />}
+            {tab.key === 'messages' && <div className="w-1 h-1 rounded-full bg-warning" />}
           </div>
         ))}
       </div>
@@ -325,62 +317,62 @@ function ProfileCard({ profile, likeOpacity = 0, nopeOpacity = 0 }: {
   nopeOpacity?: number
 }) {
   return (
-    <div style={{ background: '#ffffff', borderRadius: 20, border: '1px solid #E8E8E8', overflow: 'hidden', height: 415, position: 'relative' }}>
-      <div style={{ height: 185, background: profile.bg, position: 'relative' }}>
-        <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(255,255,255,0.88)', borderRadius: 20, padding: '3px 8px', fontSize: 9, fontWeight: 500, color: '#1a1a1a', fontFamily: 'inherit' }}>
+    <div className="bg-white rounded-2xl border border-border overflow-hidden relative h-104">
+      <div className="h-46 relative" style={{ background: profile.bg }}>
+        <div className="absolute top-2.5 left-2.5 bg-white bg-opacity-88 rounded-2xl px-2 py-0.75 text-xs font-medium text-primary">
           {profile.university}
         </div>
         {profile.isGroup && (
-          <div style={{ position: 'absolute', top: 10, right: 10, background: 'rgba(26,26,26,0.65)', borderRadius: 20, padding: '3px 8px', fontSize: 9, color: '#ffffff', fontFamily: 'inherit' }}>
+          <div className="absolute top-2.5 right-2.5 bg-gray-900 bg-opacity-65 rounded-2xl px-2 py-0.75 text-xs text-white">
             group
           </div>
         )}
-        <div style={{ position: 'absolute', bottom: -26, left: 16, width: 60, height: 60, borderRadius: '50%', background: profile.avatarBg, color: profile.avatarText, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19, fontWeight: 500, border: '2.5px solid #ffffff', fontFamily: 'inherit' }}>
+        <div className="absolute -bottom-6.5 left-4 w-15 h-15 rounded-full flex items-center justify-center text-lg font-medium border-4 border-white" style={{ background: profile.avatarBg, color: profile.avatarText }}>
           {profile.initials}
         </div>
         {profile.verified && (
-          <div style={{ position: 'absolute', bottom: -22, left: 58, width: 17, height: 17, borderRadius: '50%', background: '#1D9E75', border: '2px solid #ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div className="absolute -bottom-5.5 left-14.5 w-4.25 h-4.25 rounded-full bg-emerald-600 border-2 border-white flex items-center justify-center">
             <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-3.5" stroke="#fff" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </div>
         )}
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', opacity: likeOpacity, pointerEvents: 'none', fontSize: 24, fontWeight: 500, color: '#1D9E75', border: '2.5px solid #1D9E75', borderRadius: 8, padding: '5px 14px', fontFamily: 'inherit' }}>LIKE</div>
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', opacity: nopeOpacity, pointerEvents: 'none', fontSize: 24, fontWeight: 500, color: '#E24B4A', border: '2.5px solid #E24B4A', borderRadius: 8, padding: '5px 14px', fontFamily: 'inherit' }}>NOPE</div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none text-2xl font-medium text-emerald-600 border-2.5 border-emerald-600 rounded-lg px-3.5 py-1.25" style={{ opacity: likeOpacity }}>LIKE</div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none text-2xl font-medium text-red-500 border-2.5 border-red-500 rounded-lg px-3.5 py-1.25" style={{ opacity: nopeOpacity }}>NOPE</div>
       </div>
 
-      <div style={{ padding: '32px 14px 10px' }}>
-        <div style={{ fontSize: 16, fontWeight: 500, color: '#1a1a1a', fontFamily: 'inherit' }}>
+      <div className="px-3.5 pt-8 pb-2.5">
+        <div className="text-base font-medium text-primary">
           {profile.name}{profile.age ? `, ${profile.age}` : ''}
         </div>
-        <div style={{ fontSize: 11, color: '#AAAAAA', marginTop: 2, fontFamily: 'inherit' }}>
+        <div className="text-xs text-gray-500 mt-0.5">
           {profile.zone}{profile.state ? ` · ${profile.state}` : ''}
         </div>
-        <div style={{ fontSize: 11, color: '#888888', marginTop: 7, lineHeight: 1.5, fontFamily: 'inherit', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+        <div className="text-xs text-secondary mt-1.75 leading-normal line-clamp-2">
           {profile.bio}
         </div>
         {profile.prefs && profile.prefs.length > 0 && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 5, marginTop: 9 }}>
+          <div className="grid grid-cols-2 gap-1.25 mt-2.25">
             {profile.prefs.slice(0, 4).map((p: any) => (
-              <div key={p.label} style={{ background: '#FAFAFA', borderRadius: 8, padding: '6px 8px', display: 'flex', alignItems: 'center', gap: 5 }}>
-                <span style={{ fontSize: 12 }}>{p.emoji}</span>
-                <span style={{ fontSize: 10, color: '#888888', fontFamily: 'inherit' }}>{p.label}</span>
+              <div key={p.label} className="bg-gray-50 rounded-lg p-1.5 flex items-center gap-1.25">
+                <span className="text-sm">{p.emoji}</span>
+                <span className="text-xs text-secondary">{p.label}</span>
               </div>
             ))}
           </div>
         )}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 9, background: '#FAFAFA', borderRadius: 10, padding: '8px 10px' }}>
-          <span style={{ fontSize: 14 }}>🍽️</span>
-          <span style={{ fontSize: 11, fontFamily: 'inherit' }}>
-            <strong style={{ color: '#1a1a1a' }}>{profile.kitchen.persona}</strong>
-            {profile.kitchen.diet ? <span style={{ color: '#999999' }}> · {profile.kitchen.diet}</span> : null}
+        <div className="flex items-center gap-1.5 mt-2.25 bg-gray-50 rounded-2xl px-2.5 py-2">
+          <span className="text-3.5">🍽️</span>
+          <span className="text-xs">
+            <strong className="text-primary">{profile.kitchen.persona}</strong>
+            {profile.kitchen.diet ? <span className="text-gray-600"> · {profile.kitchen.diet}</span> : null}
           </span>
         </div>
       </div>
 
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '8px 14px 12px', borderTop: '1px solid #F5F5F5', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#ffffff' }}>
-        <span style={{ fontSize: 12, fontWeight: 500, color: '#0F6E56', background: '#E1F5EE', padding: '3px 10px', borderRadius: 20, fontFamily: 'inherit' }}>
+      <div className="absolute bottom-0 left-0 right-0 px-3.5 py-3 border-t border-gray-100 flex justify-between items-center bg-white">
+        <span className="text-xs font-medium text-green-900 bg-green-50 px-2.5 py-0.75 rounded-full">
           {profile.budget}
         </span>
-        <span style={{ fontSize: 10, color: '#BBBBBB', fontFamily: 'inherit' }}>{profile.room}</span>
+        <span className="text-xs text-gray-400">{profile.room}</span>
       </div>
     </div>
   )

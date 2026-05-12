@@ -45,53 +45,55 @@ export default function Messages({ onBack }: { onBack: () => void }) {
 
   if (activeChat) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#ffffff' }}>
+      <div className="flex flex-col h-screen bg-white">
         {/* Thread header */}
-        <div style={{ padding: '14px 14px 10px', display: 'flex', alignItems: 'center', gap: 10, borderBottom: '1px solid #F0F0F0' }}>
-          <button onClick={() => setActiveChat(null)} style={{ width: 34, height: 34, borderRadius: '50%', border: '1px solid #E8E8E8', background: '#ffffff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        <div className="px-3.5 py-3.5 pb-2.5 flex items-center gap-2.5 border-b border-gray-100">
+          <button onClick={() => setActiveChat(null)} className="w-8.5 h-8.5 rounded-full border border-border bg-white cursor-pointer flex items-center justify-center flex-shrink-0 hover:bg-gray-50">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="#1a1a1a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </button>
-          <div style={{ width: 38, height: 38, borderRadius: '50%', background: activeChat.avatarBg, color: activeChat.avatarText, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 500, flexShrink: 0, fontFamily: 'inherit' }}>
+          <div className="w-9.5 h-9.5 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0" style={{ background: activeChat.avatarBg, color: activeChat.avatarText }}>
             {activeChat.initials}
           </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 14, fontWeight: 500, color: '#1a1a1a', fontFamily: 'inherit' }}>{activeChat.name}</div>
-            <div style={{ fontSize: 10, color: '#1D9E75', fontFamily: 'inherit' }}>verified · {activeChat.city}</div>
+          <div className="flex-1">
+            <div className="text-sm font-medium text-primary">{activeChat.name}</div>
+            <div className="text-xs text-green-600">verified · {activeChat.city}</div>
           </div>
-          <div style={{ cursor: 'pointer' }}>
+          <div className="cursor-pointer">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="5" r="1.5" fill="#CCCCCC" /><circle cx="9" cy="9" r="1.5" fill="#CCCCCC" /><circle cx="9" cy="13" r="1.5" fill="#CCCCCC" /></svg>
           </div>
         </div>
 
         {/* Info strip */}
-        <div style={{ background: '#FAFAFA', padding: '8px 14px', borderBottom: '1px solid #F5F5F5' }}>
-          <p style={{ fontSize: 10, color: '#BBBBBB', textAlign: 'center', fontFamily: 'inherit' }}>
+        <div className="bg-gray-50 px-3.5 py-2 border-b border-gray-100">
+          <p className="text-xs text-gray-400 text-center">
             you matched 2 minutes ago · 4 shared preferences
           </p>
         </div>
 
         {/* Messages */}
-        <div style={{ flex: 1, padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 10, overflowY: 'auto' }}>
-          <p style={{ textAlign: 'center', fontSize: 10, color: '#CCCCCC', fontFamily: 'inherit' }}>today 9:39 am</p>
+        <div className="flex-1 px-3.5 py-3 flex flex-col gap-2.5 overflow-y-auto">
+          <p className="text-center text-xs text-gray-400">today 9:39 am</p>
           {messages.map(msg => (
-            <div key={msg.id} style={{ display: 'flex', flexDirection: msg.sender === 'me' ? 'row-reverse' : 'row', alignItems: 'flex-end', gap: 8 }}>
+            <div key={msg.id} className={`flex ${msg.sender === 'me' ? 'flex-row-reverse' : 'flex-row'} items-end gap-2`}>
               {msg.sender === 'them' && (
-                <div style={{ width: 26, height: 26, borderRadius: '50%', background: activeChat.avatarBg, color: activeChat.avatarText, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 500, flexShrink: 0, fontFamily: 'inherit' }}>
+                <div className="w-6.5 h-6.5 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0" style={{ background: activeChat.avatarBg, color: activeChat.avatarText }}>
                   {activeChat.initials.slice(0, 1)}
                 </div>
               )}
               <div>
-                <div style={{
-                  maxWidth: 200, padding: '10px 14px', fontSize: 13, lineHeight: 1.45, fontFamily: 'inherit',
-                  background: msg.sender === 'me' ? '#1a1a1a' : '#F5F5F5',
-                  color: msg.sender === 'me' ? '#ffffff' : '#1a1a1a',
-                  borderRadius: 18,
-                  borderBottomRightRadius: msg.sender === 'me' ? 4 : 18,
-                  borderBottomLeftRadius: msg.sender === 'them' ? 4 : 18,
-                }}>
+                <div className={`max-w-[200px] px-3.5 py-2.5 text-sm leading-relaxed rounded-2xl ${
+                  msg.sender === 'me'
+                    ? 'bg-primary text-white'
+                    : 'bg-gray-100 text-primary'
+                }`}
+                style={{
+                  borderBottomRightRadius: msg.sender === 'me' ? '4px' : undefined,
+                  borderBottomLeftRadius: msg.sender === 'them' ? '4px' : undefined,
+                }}
+                >
                   {msg.text}
                 </div>
-                <div style={{ fontSize: 10, color: '#CCCCCC', marginTop: 3, textAlign: msg.sender === 'me' ? 'right' : 'left', fontFamily: 'inherit' }}>
+                <div className={`text-xs text-gray-400 mt-0.75 ${msg.sender === 'me' ? 'text-right' : 'text-left'}`}>
                   {msg.time}
                 </div>
               </div>
@@ -99,9 +101,9 @@ export default function Messages({ onBack }: { onBack: () => void }) {
           ))}
 
           {/* Quick replies */}
-          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 4 }}>
+          <div className="flex gap-1.5 flex-wrap mt-1">
             {QUICK_REPLIES.map(r => (
-              <div key={r} onClick={() => setInput(r)} style={{ padding: '7px 12px', background: '#F5F5F5', borderRadius: 20, fontSize: 12, color: '#555555', cursor: 'pointer', fontFamily: 'inherit' }}>
+              <div key={r} onClick={() => setInput(r)} className="px-3 py-1.75 bg-gray-100 rounded-full text-xs text-secondary cursor-pointer hover:bg-gray-200">
                 {r}
               </div>
             ))}
@@ -109,8 +111,8 @@ export default function Messages({ onBack }: { onBack: () => void }) {
         </div>
 
         {/* Input bar */}
-        <div style={{ display: 'flex', gap: 8, padding: '10px 14px', borderTop: '1px solid #F0F0F0', alignItems: 'center' }}>
-          <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0 }}>
+        <div className="flex gap-2 px-3.5 py-2.5 border-t border-gray-100 items-center">
+          <div className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center cursor-pointer flex-shrink-0 hover:bg-gray-200">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="#999999" strokeWidth="1.5" strokeLinecap="round" /></svg>
           </div>
           <input
@@ -118,14 +120,13 @@ export default function Messages({ onBack }: { onBack: () => void }) {
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && sendMessage()}
             placeholder={`message ${activeChat.name.split(' ')[0]}...`}
-            style={{ flex: 1, padding: '10px 14px', border: '1px solid #EEEEEE', borderRadius: 22, fontSize: 13, color: '#1a1a1a', fontFamily: 'inherit', outline: 'none', background: '#ffffff' }}
+            className="flex-1 px-3.5 py-2.5 border border-gray-200 rounded-full text-sm text-primary placeholder-gray-500 outline-none bg-white hover:bg-gray-50 focus:bg-white"
           />
-          <button onClick={sendMessage} style={{
-            width: 36, height: 36, borderRadius: '50%', border: 'none', cursor: 'pointer',
-            background: input.trim() ? '#1a1a1a' : '#EEEEEE',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            transition: 'background 0.2s', flexShrink: 0,
-          }}>
+          <button onClick={sendMessage} className={`w-9 h-9 rounded-full border-none cursor-pointer flex items-center justify-center transition-colors flex-shrink-0 ${
+            input.trim()
+              ? 'bg-primary hover:bg-gray-900'
+              : 'bg-gray-200'
+          }`}>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke={input.trim() ? '#ffffff' : '#AAAAAA'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </button>
         </div>
@@ -134,39 +135,36 @@ export default function Messages({ onBack }: { onBack: () => void }) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#ffffff' }}>
+    <div className="flex flex-col h-screen bg-white">
       {/* Header */}
-      <div style={{ padding: '16px 16px 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: 18, fontWeight: 500, color: '#1a1a1a', fontFamily: 'inherit' }}>messages</span>
+      <div className="px-4 py-4 pb-2.5 flex justify-between items-center">
+        <span className="text-lg font-medium text-primary">messages</span>
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="#1a1a1a" strokeWidth="1.2" /><path d="M6 9h6M9 6v6" stroke="#1a1a1a" strokeWidth="1.2" strokeLinecap="round" /></svg>
       </div>
 
       {/* Search */}
-      <div style={{ padding: '0 16px 10px' }}>
-        <div style={{ background: '#F5F5F5', borderRadius: 22, padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
+      <div className="px-4 pb-2.5">
+        <div className="bg-gray-100 rounded-full p-2 pl-3.5 flex items-center gap-2">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#BBBBBB" strokeWidth="1.2" /><line x1="9.5" y1="9.5" x2="12" y2="12" stroke="#BBBBBB" strokeWidth="1.2" strokeLinecap="round" /></svg>
-          <span style={{ fontSize: 13, color: '#BBBBBB', fontFamily: 'inherit' }}>search conversations</span>
+          <span className="text-sm text-gray-400">search conversations</span>
         </div>
       </div>
 
       {/* Conversation list */}
-      <div style={{ flex: 1, overflowY: 'auto' }}>
+      <div className="flex-1 overflow-y-auto">
         {CONVERSATIONS.map(conv => (
-          <div key={conv.id} onClick={() => setActiveChat(conv)} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', borderBottom: '1px solid #F8F8F8', cursor: 'pointer' }}
-            onMouseEnter={e => (e.currentTarget.style.background = '#FAFAFA')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-          >
-            <div style={{ width: 46, height: 46, borderRadius: '50%', background: conv.avatarBg, color: conv.avatarText, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, fontWeight: 500, flexShrink: 0, fontFamily: 'inherit' }}>
+          <div key={conv.id} onClick={() => setActiveChat(conv)} className="flex items-center gap-3 px-4 py-3 border-b border-gray-50 cursor-pointer hover:bg-gray-50 transition-colors">
+            <div className="w-11.5 h-11.5 rounded-full flex items-center justify-center text-base font-medium flex-shrink-0" style={{ background: conv.avatarBg, color: conv.avatarText }}>
               {conv.initials}
             </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 14, fontWeight: 500, color: '#1a1a1a', fontFamily: 'inherit' }}>{conv.name}</div>
-              <div style={{ fontSize: 12, color: '#AAAAAA', fontFamily: 'inherit', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 180, marginTop: 2 }}>{conv.preview}</div>
+            <div className="flex-1 min-w-0">
+              <div className="text-sm font-medium text-primary">{conv.name}</div>
+              <div className="text-xs text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis max-w-[180px] mt-0.5">{conv.preview}</div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4, flexShrink: 0 }}>
-              <span style={{ fontSize: 10, color: '#CCCCCC', fontFamily: 'inherit' }}>{conv.time}</span>
+            <div className="flex flex-col items-end gap-1 flex-shrink-0">
+              <span className="text-xs text-gray-400">{conv.time}</span>
               {conv.unread > 0 && (
-                <div style={{ width: 18, height: 18, borderRadius: '50%', background: '#1a1a1a', color: '#ffffff', fontSize: 10, fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'inherit' }}>
+                <div className="w-4.5 h-4.5 rounded-full bg-primary text-white text-xs font-medium flex items-center justify-center">
                   {conv.unread}
                 </div>
               )}
@@ -176,16 +174,16 @@ export default function Messages({ onBack }: { onBack: () => void }) {
       </div>
 
       {/* Bottom nav */}
-      <div style={{ display: 'flex', justifyContent: 'space-around', padding: '10px 0 16px', borderTop: '1px solid #F0F0F0', background: '#ffffff' }}>
+      <div className="flex justify-around py-2.5 pb-4 border-t border-gray-100 bg-white">
         {[
           { key: 'home', icon: <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10L10 3l7 7v7H13v-4H7v4H3z" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinejoin="round" /></svg>, onClick: onBack },
           { key: 'discover', icon: <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 10a4 4 0 100-8 4 4 0 000 8zM3 17c0-3 3-5 7-5s7 2 7 5" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" /></svg> },
           { key: 'messages', icon: <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M17 13c0 .6-.4 1-1 1H6l-3 3V4c0-.6.4-1 1-1h12c.6 0 1 .4 1 1v9z" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinejoin="round" /></svg> },
           { key: 'profile', icon: <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.3" fill="none" /><path d="M7 10l2 2 4-4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /></svg> },
         ].map(tab => (
-          <div key={tab.key} onClick={() => { setActiveTab(tab.key); tab.onClick?.() }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, cursor: 'pointer', padding: '2px 12px', color: activeTab === tab.key ? '#1a1a1a' : '#CCCCCC' }}>
+          <div key={tab.key} onClick={() => { setActiveTab(tab.key); tab.onClick?.() }} className="flex flex-col items-center gap-0.75 cursor-pointer px-3 py-0.5" style={{ color: activeTab === tab.key ? '#1a1a1a' : '#CCCCCC' }}>
             {tab.icon}
-            {tab.key === 'messages' && activeTab === tab.key && <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#D85A30' }} />}
+            {tab.key === 'messages' && activeTab === tab.key && <div className="w-1 h-1 rounded-full bg-warning" />}
           </div>
         ))}
       </div>

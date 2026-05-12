@@ -72,60 +72,49 @@ export default function Kitchen({ onNext, onBack }: KitchenProps) {
   }
 
   return (
-    <div style={{
-      display: 'flex', flexDirection: 'column',
-      minHeight: '100vh', background: '#ffffff', padding: '0 20px 40px',
-    }}>
-      <div style={{ height: 3, background: '#F0F0F0' }}>
-        <div style={{ height: 3, background: '#1a1a1a', width: '88%', borderRadius: 2 }} />
+    <div className="flex flex-col min-h-screen bg-white px-5 pb-10">
+      <div className="h-1 bg-gray-100">
+        <div className="h-1 bg-primary w-11/12 rounded" />
       </div>
 
-      <div style={{ padding: '14px 0 0' }}>
-        <button onClick={onBack} style={{
-          width: 34, height: 34, borderRadius: '50%',
-          border: '1px solid #E8E8E8', background: '#ffffff',
-          cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
+      <div className="pt-3.5">
+        <button onClick={onBack} className="w-8.5 h-8.5 rounded-full border border-border bg-white cursor-pointer flex items-center justify-center hover:bg-gray-50">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M9 2L4 7L9 12" stroke="#1a1a1a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
       </div>
 
-      <div style={{ flex: 1, paddingTop: 24, overflowY: 'auto' }}>
-        <h1 style={{ fontSize: 22, fontWeight: 500, color: '#1a1a1a', lineHeight: 1.25, marginBottom: 8, fontFamily: 'inherit' }}>
+      <div className="flex-1 pt-6 overflow-y-auto">
+        <h1 className="text-xl font-medium text-primary leading-tight mb-2">
           what's your vibe<br />in the kitchen?
         </h1>
-        <p style={{ fontSize: 13, color: '#999999', marginBottom: 24, fontFamily: 'inherit' }}>
+        <p className="text-sm text-gray-600 mb-6">
           honest answers make the best matches. no judgement.
         </p>
 
         {/* Persona grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 20 }}>
+        <div className="grid grid-cols-2 gap-2.5 mb-5">
           {personas.map(p => (
             <div
               key={p.key}
               onClick={() => { setPersona(p.key); setDiet(null) }}
-              style={{
-                border: `1.5px solid ${persona === p.key ? '#1a1a1a' : '#E8E8E8'}`,
-                borderRadius: 16, padding: '16px 12px 14px',
-                background: persona === p.key ? '#FAFAFA' : '#ffffff',
-                cursor: 'pointer', textAlign: 'center',
-                transition: 'all 0.18s',
-              }}
+              className={`border-2 rounded-2xl p-3.5 text-center cursor-pointer transition-all ${
+                persona === p.key
+                  ? 'border-primary bg-gray-50'
+                  : 'border-border bg-white'
+              }`}
             >
-              <div style={{
-                width: 44, height: 44, borderRadius: '50%',
-                background: p.circleBg,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                margin: '0 auto 10px', fontSize: 20,
-              }}>
+              <div
+                className="w-11 h-11 rounded-full flex items-center justify-center mx-auto mb-2.5 text-lg"
+                style={{ background: p.circleBg }}
+              >
                 {p.emoji}
               </div>
-              <div style={{ fontSize: 13, fontWeight: 500, color: '#1a1a1a', fontFamily: 'inherit', marginBottom: 4 }}>
+              <div className="text-sm font-medium text-primary mb-1">
                 {p.name}
               </div>
-              <div style={{ fontSize: 10, color: '#999999', fontFamily: 'inherit', lineHeight: 1.4 }}>
+              <div className="text-xs text-gray-600 leading-snug">
                 {p.desc}
               </div>
             </div>
@@ -134,34 +123,32 @@ export default function Kitchen({ onNext, onBack }: KitchenProps) {
 
         {/* Diet section — slides in */}
         {needsDiet && (
-          <div style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 11, color: '#AAAAAA', marginBottom: 10, fontFamily: 'inherit' }}>
+          <div className="mb-5">
+            <div className="text-xs text-gray-500 mb-2.5">
               and your kitchen preference?
             </div>
             {dietOptions.map(d => (
               <div
                 key={d.key}
                 onClick={() => setDiet(d.key)}
-                style={{
-                  border: `1.5px solid ${diet === d.key ? '#1a1a1a' : '#E8E8E8'}`,
-                  borderRadius: 12, padding: '11px 14px',
-                  background: diet === d.key ? '#FAFAFA' : '#ffffff',
-                  cursor: 'pointer', marginBottom: 8,
-                  display: 'flex', alignItems: 'center', gap: 12,
-                  transition: 'all 0.15s',
-                }}
+                className={`border-2 rounded-lg p-3 mb-2 flex items-center gap-3 cursor-pointer transition-all ${
+                  diet === d.key
+                    ? 'border-primary bg-gray-50'
+                    : 'border-border bg-white'
+                }`}
               >
-                <div style={{
-                  width: 18, height: 18, borderRadius: '50%',
-                  border: `1.5px solid ${diet === d.key ? '#1a1a1a' : '#E8E8E8'}`,
-                  background: diet === d.key ? '#1a1a1a' : 'transparent',
-                  flexShrink: 0,
-                }} />
+                <div
+                  className={`w-4.5 h-4.5 rounded-full flex-shrink-0 ${
+                    diet === d.key
+                      ? 'border-2 border-primary bg-primary'
+                      : 'border-2 border-border bg-transparent'
+                  }`}
+                />
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 500, color: '#1a1a1a', fontFamily: 'inherit' }}>
+                  <div className="text-sm font-medium text-primary">
                     {d.label}
                   </div>
-                  <div style={{ fontSize: 10, color: '#999999', fontFamily: 'inherit', marginTop: 1 }}>
+                  <div className="text-xs text-gray-600 mt-0.5">
                     {d.sub}
                   </div>
                 </div>
@@ -171,25 +158,20 @@ export default function Kitchen({ onNext, onBack }: KitchenProps) {
         )}
 
         {/* Preview box */}
-        <div style={{
-          background: '#FAFAFA', borderRadius: 12, padding: '12px 14px',
-          marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10,
-        }}>
+        <div className="bg-gray-50 rounded-lg p-3.5 mb-5 flex items-center gap-2.5">
           {persona && (
-            <div style={{
-              width: 30, height: 30, borderRadius: '50%',
-              background: personas.find(p => p.key === persona)?.circleBg,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 14, flexShrink: 0,
-            }}>
+            <div
+              className="w-7.5 h-7.5 rounded-full flex items-center justify-center flex-shrink-0 text-sm"
+              style={{ background: personas.find(p => p.key === persona)?.circleBg }}
+            >
               {personas.find(p => p.key === persona)?.emoji}
             </div>
           )}
-          <div style={{
-            fontSize: 12, color: persona ? '#1a1a1a' : '#AAAAAA',
-            fontFamily: 'inherit', lineHeight: 1.5,
-            fontStyle: persona ? 'normal' : 'italic',
-          }}>
+          <div
+            className={`text-xs leading-relaxed ${
+              persona ? 'text-primary not-italic' : 'text-gray-500 italic'
+            }`}
+          >
             {getPreview()}
           </div>
         </div>
@@ -197,15 +179,11 @@ export default function Kitchen({ onNext, onBack }: KitchenProps) {
 
       <button
         onClick={() => isValid && onNext({ persona: persona!, diet: diet || '' })}
-        style={{
-          width: '100%', padding: '16px',
-          background: isValid ? '#1a1a1a' : '#E0E0E0',
-          color: isValid ? '#ffffff' : '#AAAAAA',
-          border: 'none', borderRadius: 30,
-          fontSize: 15, fontWeight: 500,
-          cursor: isValid ? 'pointer' : 'default',
-          fontFamily: 'inherit', transition: 'background 0.2s',
-        }}
+        className={`w-full px-4 py-4 border-none rounded-full text-sm font-medium transition-colors ${
+          isValid
+            ? 'bg-primary text-white cursor-pointer hover:bg-gray-900'
+            : 'bg-gray-200 text-gray-400 cursor-default'
+        }`}
       >
         continue
       </button>
